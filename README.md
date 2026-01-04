@@ -1,32 +1,62 @@
 # Job Portal with JWT Authentication
 
-This is a simple job portal example using Express, JWT, and lowdb.
+A minimal job portal example showing JWT auth and role-based access using Express and lowdb.
 
-Features:
+## Features ✅
 - Admin and member roles
 - Public job listing at `GET /jobs`
 - Authenticated REST API under `/api/*` (JWT required)
-- Admin can manage jobs and users
-- Members can apply to jobs
+- Admin: create/update/delete jobs and manage users
+- Member: apply to jobs
 
-Quick start:
-1. Copy `.env.example` to `.env` and set `JWT_SECRET`.
-2. npm install
-3. npm run dev
+## Prerequisites 🔧
+- Node.js (>= 16)
+- npm
 
-Default admin user created on first run:
-- username: admin
-- password: admin123
+## Installation & quick start 🚀
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Create env file:
+   ```bash
+   cp .env.example .env
+   # then set JWT_SECRET in .env
+   ```
+3. Start in development mode:
+   ```bash
+   npm run dev
+   ```
+4. Open public jobs: `http://localhost:3000/jobs`
 
-Sample requests:
-- Register: POST /auth/register { username, password }
-- Login: POST /auth/login { username, password } -> returns token
-- Public jobs: GET /jobs
-- API jobs (requires Authorization: Bearer <token>):
-  - GET /api/jobs
-  - POST /api/jobs (admin)
-  - POST /api/jobs/:id/apply (member)
+## Default credentials (first run) 🔐
+- username: `admin`
+- password: `admin123`
 
-Security notes:
-- This is an example; do not use in production as-is.
-- Use a strong `JWT_SECRET` and persist a real database.
+> The server will create this admin automatically if the DB is empty.
+
+## API Endpoints 📡
+- Public
+  - `GET /jobs` — public job list
+- Auth (JWT)
+  - `POST /auth/register` — register { username, password }
+  - `POST /auth/login` — login { username, password } → returns token
+- Jobs (authenticated)
+  - `GET /api/jobs` — list jobs (any authenticated user)
+  - `GET /api/jobs/:id` — job details
+  - `POST /api/jobs` — create job (**admin only**)
+  - `PUT /api/jobs/:id` — update job (**admin only**)
+  - `DELETE /api/jobs/:id` — delete job (**admin only**)
+  - `POST /api/jobs/:id/apply` — apply to job (**member only**)
+
+## Development notes 🧪
+- Database: `lowdb` saved to `db/db.json` (for demo only)
+- Change `JWT_SECRET` in `.env` before deploying
+
+## Recommended next steps ✨
+- Add `.gitignore` (ignore `node_modules` and `.env`)
+- Replace `lowdb` with a real DB for production
+
+## License
+MIT
+
